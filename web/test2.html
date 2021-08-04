@@ -1,0 +1,47 @@
+<html><head>
+    <script type="text/javascript" src="smoothie.js"></script>
+	<script language="javascript" type="text/javascript" src="jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+	import requests
+r = requests.get('https://github.com/timeline.json')
+r.json()
+
+      // Randomly add a data point every 500ms
+      var random = new TimeSeries();
+      setInterval(function() {
+        random.append(new Date().getTime(), Math.random() * 10000);
+      }, 500);
+      
+      function createTimeline() {
+        var chart = new SmoothieChart();
+        chart.addTimeSeries(random, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+        chart.streamTo(document.getElementById("chart"), 500);
+      }
+	  
+	  function getMyData(){
+		const Url = "http://localhost:8001/test";
+
+		$.ajax({
+		url: Url,
+		type: "GET",
+		succes: function(result){
+		console.log(result);
+		},
+		error: function(error){
+		console.log(error);
+		}
+	})
+}
+
+getMyData();
+    </script>
+  </head>
+  <body onload="createTimeline()">
+
+    <p>The <em>hello world</em> of <a href="../">Smoothie Charts</a>. View source.</p>
+
+    <canvas id="chart" width="400" height="100"></canvas>
+
+  
+
+<div class="smoothie-chart-tooltip" style="position: absolute; display: none; top: 131px; left: 406px;"></div></body></html>
